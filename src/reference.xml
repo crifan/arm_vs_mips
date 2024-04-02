@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<bibliography
+    xmlns="http://docbook.org/ns/docbook"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xl="http://www.w3.org/1999/xlink"
+
+    xml:id="reference">
+
+<bibliomixed id="ref.mips16e_cn">
+  <bibliosource><ulink url="http://www.mips.com.cn/products/architectures/MIPS16e/">MIPS16e架构</ulink></bibliosource>
+  <author>mips</author>
+</bibliomixed>
+
+<bibliomixed id="ref.mips16e">
+  <bibliosource><ulink url="http://www.mips.com/products/architectures/mips16e/">MIPS16e<superscript>®</superscript></ulink></bibliosource>
+  <author>mips</author>
+</bibliomixed>
+
+<bibliomixed id="ref.ase_mips32">
+  <bibliosource><ulink url="http://www.weblearn.hs-bremen.de/risse/RST/docs/MIPS/MD00076-2B-MIPS1632-AFP-00.96.pdf">MIPS32™ Architecture for Programmers, Volume IV-a: The MIPS16e™ Application-Specific Extension to the MIPS32™ Architecture</ulink></bibliosource>
+  <author>weblearn</author>
+</bibliomixed>
+
+<bibliomixed id="ref.about_mips16e">
+  <bibliosource><ulink url="http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=cpu&amp;Number=351019&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=1">关于MIPS16e指令集</ulink></bibliosource>
+  <author>armix</author>
+</bibliomixed>
+
+<bibliomixed id="ref.wiki_mips">
+  <bibliosource><ulink url="http://en.wikipedia.org/wiki/MIPS_architecture">Wiki: MIPS</ulink></bibliosource>
+  <author>wiki</author>
+</bibliomixed>
+
+</bibliography>

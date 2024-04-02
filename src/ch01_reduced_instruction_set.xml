@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<!DOCTYPE chapter
+[
+
+<!ENTITY % crl_ent PUBLIC "crl.ent" 'http://www.crifan.com/files/res/docbook/entity/crl.ent'>
+%crl_ent;
+
+]>
+
+<chapter
+    xmlns="http://docbook.org/ns/docbook"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xl="http://www.w3.org/1999/xlink"
+
+    xml:id="ch01_reduced_instruction_set">
+<title>在精简指令集以减小代码空间占用方面的对比</title>
+<abstract></abstract>
+
+<sect1 xml:id="arm_thumb_mode"><title>ARM中的Thumb模式</title>
+    <para>常见的ARM是32位的，其中有个Thumb模式，即16位模式。</para>
+    <para>在标准32位模式下，可以切换到Thumb模式下，这样的话，代码大小会压缩不少，以此提高空间利用率。</para>
+    <para>同样的代码，如果用Thumb模式的话，比用普通ARM模式的指令，代码大小最大可以减少大约40%。</para>
+    <para>程序可以通过对应的指令，在ARM和Thumb模式之间切换。</para>
+    
+    <sect2 xml:id="check_arm_cpu_mode"><title>软件检测CPU处于何种模式</title>
+        <para>软件可以通过检测CPSR寄存器中Thumb位，来判断当前是处于ARM模式还是Thumb模式。</para>
+    </sect2>
+</sect1>
+
+<sect1 xml:id="mips_mips16e_ase"><title>MIPS中的MIPS16e ASE</title>
+    <para>对应的，MIPS中也有个类似的做法。</para>
+    <para>普通MIPS是32位的，当然也有MIPS64的。</para>
+    <para>MIPS中有个MIPS16e ASE ，其中ASE是Application Specific Extension，（根据应用的）专用扩展。</para>
+    <para>关于为何叫做ASE，我的理解是，MIPS16e ASE是针对MIPS32来说的，是对其一种扩展，是在，某些特定的应用（多为嵌入式应用）下减少代码大小，方面的扩展，因此，才叫做Specific Extension专用扩展。</para>
+    <para>MIPS16e ASE也常被简称为MIPS16e。</para>
+    <para>在MIPS16e ASE之前，有个MIPS16&TRADE;，提供了一些额外的指令，用于提高代码的兼容性。而MIPS16e ASE，可以看作是MIPS16&TRADE;的增强版。</para>
+    <para>相比MIPS32，利用MIPS16e编译的应用程序平均减小30%，最多可减少40%。</para>
+    <para>MIPS16e的指令集，兼容MIPS32 和 MIPS64的指令集。</para>
+    <para>程序也可以在MIPS16e 模式和MIPS 32位模式之间切换。</para>
+    
+    <sect2 xml:id="mips16e_ase_pros_cons"><title>MIPS16e ASE的优势和劣势</title>
+        <para>用了MIPS16e ASE后，代码量减少，也相应的带来一个好处，还能提高指令缓存命中率(cache hit rate)，即降低了cache miss rate。</para>
+        <para>而由于缓存是个耗电大户，因此，相应地减少了功耗，实现省电，环保（有利于生态系统Ecosystem）的功效。</para>
+        <para>与优点相对应的缺点是，MIPS16e ASE比普通的MIPS32，增加了解码的复杂度，即解码时间相对增加了。</para>
+        <para>不过，拿MIPS16e ASE的劣质和优势相比，总体优势还是很明显的。</para>
+        <para>不过，貌似实际应用中用到MIPS16e ASE的不多。</para>
+    </sect2>
+    
+    <sect2 xml:id="check_mips_cpu_mode"><title>软件检测CPU处于何种模式</title>
+        <para>软件中可以通过检测MIPS16e ASE中的Config1 CP0寄存器的CA bit位来判断是否是处在MIPS16e ASE模式。</para>
+        <figure id="fg.cp0_reg16_select1"><title>Config1(CP0 Register 16, Select 1)寄存器域值说明</title>
+            <mediaobject>
+                <imageobject role="html"><imagedata fileref="images/cp0_reg16_select1.png" align="left"     scalefit="0" width="100%" /></imageobject>
+                <imageobject role="fo">  <imagedata fileref="images/cp0_reg16_select1.png" align="center"   scalefit="1" width="100%" /></imageobject>
+            </mediaobject>
+        </figure>
+    </sect2>
+    
+    <sect2 xml:id="mips16e_ase_features"><title>MIPS16e ASE的一些细节特性</title>
+        <orderedlist>
+            <listitem>MIPS16e指令为16位指令</listitem>
+            <listitem>32个通用寄存器中有8个可用于MIPS16e模式；其中包括常用于变元传递(argument passing)和返回值的寄存器</listitem>
+            <listitem>与MIPS32一起使用时，支持8位、16位和32位数据类型；与MIPS64一起使用时，支持8位、16位、32位和64位数据类型</listitem>
+            <listitem>MIPS16e 和 MIPS32/64之间的模式切换允许特权架构/浮点/ASE支持；通过一条特殊的跳转指令来实现模式切换的软件控制</listitem>
+            <listitem>EXTEND指令可让16位指令有效创建16位立即值(immediate value)</listitem>
+            <listitem>SAVE/RESTORE指令可提高栈帧处理(stack frame handling)的代码密度</listitem>
+            <listitem>PC相关寻址可提高创建导入/存储地址的代码密度</listitem>
+            <listitem>某些指令采用隐型寄存器描述符(implied register specifier)来提高代码密度--用于导入/存储的堆栈指针或程序计数器；分配一个GPR(通用寄存器)来比较分支结果</listitem>
+            <listitem>仍支持专用宏指令序列</listitem>
+        </orderedlist>
+    </sect2>
+</sect1>
+
+</chapter>
